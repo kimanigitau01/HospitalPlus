@@ -1,4 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+
+from myApp.models import Appointment
+
 
 # Create your views here.
 def index(request):
@@ -9,3 +12,29 @@ def service(request):
 
 def starter(request):
     return render(request, 'starter-page.html')
+
+def about(request):
+    return render(request, 'about.html')
+
+def myservice(request):
+    return render(request, 'services.html')
+
+def doctors(request):
+    return render(request, 'doctors.html')
+
+def appointment(request):
+    if request.method == 'POST':
+        myappointment = Appointment(
+            name=request.POST['name'],
+            email=request.POST['email'],
+            phone=request.POST['phone'],
+            date=request.POST['date'],
+            department=request.POST['department'],
+            doctor=request.POST['doctor'],
+            message=request.POST['message'],
+        )
+        myappointment.save()
+        return redirect('appointment')
+
+    else:
+        return render(request, 'appointment.html')
