@@ -1,0 +1,33 @@
+{% extends 'starter-page.html' %}
+{% load static %}
+{% block body %}
+	<table class="table mx-2 table-info container-fluid p-2">
+    <tr class="px-2">
+        <th>Name</th>
+        <th>Email</th>
+        <th>phone</th>
+        <th>Date</th>
+        <th>Department</th>
+        <th>Doctor</th>
+        <th>Message</th>
+        <th>Action</th>
+    </tr>
+    {% for x in appointment %}
+        <tr class="px-2">
+            <td>{{ x.name }}</td>
+            <td>{{ x.email }}</td>
+            <td>{{ x.phone }}</td>
+            <td>{{ x.date }}</td>
+            <td>{{ x.department }}</td>
+            <td>{{ x.doctor }}</td>
+            <td>{{ x.message }}</td>
+            <td class="d-flex flex-sm-column">
+                <a href="" class="btn btn-warning mx-2 my-2">EDIT</a>
+                <a href="/delete/{{ x.id }}" class="btn btn-danger mx-2 my-2">DELETE</a>
+                <a href="" class="btn btn-success mx-2 my-2">PAY</a>
+            </td>
+        </tr>
+    {% endfor %}
+
+    </table>
+{% endblock %}

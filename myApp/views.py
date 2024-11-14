@@ -52,3 +52,21 @@ def contact(request):
         return redirect('contact')
     else:
         return render(request, 'contact.html')
+
+def show(request):
+    allappointments = Appointment.objects.all()
+    return render(request, 'show.html', {'appointment': allappointments})
+
+def delete(request, id):
+    appoint =  Appointment.objects.get(id=id)
+    appoint.delete()
+    return redirect('/show')
+
+def showcontact(request):
+    allcontacts = Contact.objects.all()
+    return render(request, 'showcontact.html', {"contacts": allcontacts})
+
+def deletecontact(request, id):
+    selectedcontact = Contact.objects.get(id=id)
+    selectedcontact.delete()
+    return redirect('/showcontact')
