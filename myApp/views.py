@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 
 from myApp.models import Appointment, Contact
+from myApp.forms import AppointmentForm
 
 
 # Create your views here.
@@ -70,3 +71,16 @@ def deletecontact(request, id):
     selectedcontact = Contact.objects.get(id=id)
     selectedcontact.delete()
     return redirect('/showcontact')
+
+def edit(request, id):
+    editappointments = Appointment.objects.get(id=id)
+    return render(request, 'edit.html', {"appointment": editappointments})
+
+def update(request, id):
+    updateinfo = Appointment.objects.get(id=id)
+    form = AppointmentForm(request.POST,instance=updateinfo)
+    if form.is_valid():
+        form.save()
+        return redirect('/show')
+    else:
+        return render(request, 'edit.html')
