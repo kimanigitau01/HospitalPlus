@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 
 from myApp.models import Appointment, Contact
 from myApp.forms import AppointmentForm
+from myApp.contactform import ContactForm
 
 
 # Create your views here.
@@ -84,3 +85,16 @@ def update(request, id):
         return redirect('/show')
     else:
         return render(request, 'edit.html')
+
+def editcontact(request, id):
+    editcontactinfo = Contact.objects.get(id=id)
+    return render(request, 'editcontact.html', {"contact": editcontactinfo})
+
+def updatecontact(request, id):
+    updatecontactinfo = Contact.objects.get(id=id)
+    contactform = ContactForm(request.POST, instance=updatecontactinfo)
+    if contactform.is_valid():
+        contactform.save()
+        return redirect('/showcontact')
+    else:
+        return render(request, 'editcontact.html')
