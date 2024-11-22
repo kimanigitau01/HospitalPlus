@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from myApp.models import Appointment, Contact, Member
-from myApp.forms import AppointmentForm
+from myApp.forms import AppointmentForm, ImageUploadForm, ImageModel
 from myApp.contactform import ContactForm
 
 
@@ -128,3 +128,21 @@ def register(request):
 def login(request):
     return render(request, 'login.html')
 
+def upload_image(request):
+    if request.method == 'POST':
+        form = ImageUploadForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('/showimage')
+    else:
+        form = ImageUploadForm()
+    return render(request, 'upload_image.html', {'form': form})
+
+def show_image(request):
+    images = ImageModel.objects.all()
+    return render(request, 'show_image.html', {'images': images})
+
+def imagedelete(request, id):
+    image = ImageModel.objects.get(id=id)
+    image.delete()
+    return redirect('/showimage')
